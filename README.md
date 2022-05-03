@@ -128,8 +128,6 @@ custom_channels:
 
 然后按`Ctrl`+`S`保存修改
 
-</details>
-
 安装环境的时候可能会提示是否安装，按照提示输入y就可以了
 
 接下来进入`opencv`环境
