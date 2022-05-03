@@ -156,9 +156,13 @@ pip install argparse
 
 </details>
 
-### 1. 克隆仓库，终端cd到当前位置或者配置你的IDE
+### 1. 克隆仓库
 
 哦，你或许需要先配置一下git，自己去b站搜教程吧，我就不多讲了
+
+拿着[这个](https://www.runoob.com/git/git-tutorial.html)吧，可以当作cheatsheet
+
+### 2. 配置你的IDE
 
 <details>
 <summary>Pycharm 配置</summary>
