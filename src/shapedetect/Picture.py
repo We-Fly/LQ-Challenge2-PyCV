@@ -114,6 +114,7 @@ class Picture:  # 针对图片的操作
         self.blur()
         # self.threshold(thresh, maxval)
         edge = cv2.Canny(self.modify, 75, 200)
+        # cv2.imshow("canny", edge)
         self.cnts = cv2.findContours(edge, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[0]
 
     def drawShape(self, resize=300, thresh=60, maxval=255):
