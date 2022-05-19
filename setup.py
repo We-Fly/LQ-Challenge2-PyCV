@@ -1,8 +1,8 @@
+# 这个文件是用来快速初始化的
 # import pip
+import argparse
 import subprocess
 import sys
-import argparse
-
 # use python type hints to make code more readable
 from typing import List, Optional
 
@@ -32,13 +32,14 @@ def main():
         help="specify http proxy, [http://127.0.0.1:1080]",
     )
     args = parser.parse_args()
-
+    # 如果后期有需要添加的包就写这个列表里
     pkgs = f"""
     numpy
     opencv-python
     opencv-contrib-python
     imutils
     pillow
+    pyserial
     """
 
     for line in pkgs.split("\n"):

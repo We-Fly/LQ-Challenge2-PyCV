@@ -1,9 +1,12 @@
 import cv2
 import argparse
-
+import sys
 import imutils
 
 from src.shapedetect import Picture, putChineseText
+from src.communicate import *
+
+STRGLO="" #串口读取的数据
 
 ap = argparse.ArgumentParser(
     prog="Little-Quadcopter",
@@ -20,6 +23,8 @@ ap = argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter)
 ap.add_argument("-i", "--image", help="path to the input image", type=str)
 
+ap.add_argument("-s", "--serialPort", help="serial port", type=str)
+
 ap.add_argument("-w", "--webcam", help="start the webcam", type=int)
 
 args = vars(ap.parse_args())
@@ -33,16 +38,25 @@ def image_opt() -> None:  # 图片操作
 
 def frame_opt() -> None:  # 视频操作
     while 1:
-        frame = Picture(webcam.read()[1])
-        frame.drawShape(resize=300)
-        cv2.imshow("capture", frame.resized)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        sendData = " "
+        for i in range(10):
+            frame = Picture(webcam.read()[1])
+            sendData = frame.getShape(resize=300)
+            # serialSend(ser, sendData)
+            cv2.imshow("capture", frame.resized)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                ser.close()
+                break
+        serialSend(ser, sendData)
 
 
 if args["image"] is not None:  # 处理图片操作
     image = Picture(args["image"])
     image_opt()
 elif args["webcam"] is not None:  # 处理视频操作
+    if args["serialPort"] is None:
+        print("no serial")
+        sys.exit(1)
+    ser,ret = serialInit(args["serialPort"])
     webcam = cv2.VideoCapture(args["webcam"])
     frame_opt()

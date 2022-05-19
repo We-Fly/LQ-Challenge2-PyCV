@@ -12,7 +12,7 @@ def getCntShapeName(cnt) -> str:
     approx = cv2.approxPolyDP(cnt, 0.04 * peri, True)
 
     if len(approx) == 3:
-        shapeName = "三角形"
+        shapeName = "Triangle"
 
     # 如果形状有 4 个顶点，则它是正方形或矩形
     elif len(approx) == 4:
@@ -21,7 +21,7 @@ def getCntShapeName(cnt) -> str:
         ar = w / float(h)
 
         # 正方形将具有大约等于 1 的纵横比，否则，形状为矩形
-        shapeName = "正方形" if 0.95 <= ar <= 1.05 else "矩形"
+        shapeName = "Rectangle" if 0.95 <= ar <= 1.05 else "Rectangle"
 
     # 如果形状是五边形，它将有 5 个顶点
     elif len(approx) == 5:
@@ -29,7 +29,7 @@ def getCntShapeName(cnt) -> str:
 
     # 否则，我们假设形状是圆形
     else:
-        shapeName = "圆形"
+        shapeName = "Circle"
 
     # 返回形状的名称
     return shapeName
@@ -42,11 +42,11 @@ def getCntShapeColor(cnt, img) -> str:
     (b, g, r) = img[cY][cX]
 
     if r > (g + b):
-        color = "红色"
+        color = "RED"
     elif g > (r + b):
-        color = "绿色"
+        color = "GREEN"
     elif b > (r + g):
-        color = "蓝色"
+        color = "BLUE"
     else:
         color = "NULL"
     return color
@@ -137,15 +137,53 @@ class Picture:  # 针对图片的操作
             #             0.5, (255, 255, 255), 2)
             (b, g, r) = self.resized[cY][cX]
             if r > (g + b):
-                color = "红色"
+                color = "RED"
             elif g > (r + b):
-                color = "绿色"
+                color = "GREEN"
             elif b > (r + g):
-                color = "蓝色"
+                color = "BLUE"
             else:
-                color = "色盲了"
+                color = "NULL"
             # print(r, g, b)
             self.resized = putChineseText(self.resized, shape + color, (cX, cY), textColor=(255, 0, 255), textSize=20)
             # show the output image
             # cv2.imshow("Image", self.resized)
             # cv2.waitKey(0)
+
+    def getShape(self, resize=300, thresh=60, maxval=255):
+        self.getCnts(resize, thresh, maxval)
+        for c in self.cnts:
+            # compute the center of the contour, then detect the name of the
+            # shape using only the contour
+
+            M = cv2.moments(c)
+            cX = int(M["m10"] / (M["m00"] + 1))
+            cY = int(M["m01"] / (M["m00"] + 1))
+            shape = getCntShapeName(c)
+
+            # multiply the contour (x, y)-coordinates by the resize ratio,
+            # then draw the contours and the name of the shape on the image
+            c = c.astype("float")
+            # c *= self.ratio
+            c = c.astype("int")
+            cv2.drawContours(self.resized, [c], -1, (0, 255, 0), 2)
+            # cv2.putText(self.resized, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX,
+            #             0.5, (255, 255, 255), 2)
+            (b, g, r) = self.resized[cY][cX]
+            if r > (g + b):
+                color = "RED"
+            elif g > (r + b):
+                color = "GREEN"
+            elif b > (r + g):
+                color = "BLUE"
+            else:
+                color = "NULL"
+            # print(r, g, b)
+            self.resized = putChineseText(self.resized, shape + color, (cX, cY), textColor=(255, 0, 255), textSize=20)
+            # show the output image
+            # cv2.imshow("Image", self.resized)
+            # cv2.waitKey(0)
+            sendData = str("!"+color+","+shape+"*")
+            print(str("!"+color+","+shape+"*"))
+            print("x:"+str(cX)+" y:"+str(cY))
+            return sendData
