@@ -179,9 +179,9 @@ pip install argparse
 
 点击下方的**终端**按钮，会打开一个熟悉的powershell窗口，输入 `conda activate <你的conda环境名称>` 来进入前面配置好的conda环境
 
-接下来cd到项目文件夹，在终端输入`python .\setup.py`并回车运行，初始化环境
+接下来cd到项目文件夹，在终端输入`pip install -r packages -i https://pypi.tuna.tsinghua.edu.cn/simple `并回车运行，使用tuna镜像源下载所需软件包
 
-默认使用tuna镜像源下载，如果你有代理服务器可以加上代理服务器地址，例如`python .\setup.py --proxy http://127.0.0.1:7890`
+如果你有代理服务器可以加上代理服务器地址，例如`pip install -r packages --proxy http://127.0.0.1:7890`
 
 这就准备完了，输入`python .\main.py -h` 查看帮助
 
@@ -200,9 +200,9 @@ pip install argparse
 
 然后点击上方终端，新建终端，会自动帮你激活你的conda环境
 
-接下来cd到项目文件夹，在终端输入`python .\setup.py`并回车运行，初始化环境
+接下来cd到项目文件夹，在终端输入`pip install -r packages -i https://pypi.tuna.tsinghua.edu.cn/simple `并回车运行，使用tuna镜像源下载所需软件包
 
-默认使用tuna镜像源下载，如果你有代理服务器可以加上代理服务器地址，例如`python .\setup.py --proxy http://127.0.0.1:7890`
+如果你有代理服务器可以加上代理服务器地址，例如`pip install -r packages --proxy http://127.0.0.1:7890`
 
 这就准备完了，输入`python .\main.py -h` 查看帮助
 
