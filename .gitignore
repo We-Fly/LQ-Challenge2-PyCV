@@ -41,3 +41,5 @@ settings.json
 
 #pycache
 __pycache__
+
+.idea/
